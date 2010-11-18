@@ -1,0 +1,27 @@
+#!/bin/sh
+
+PREFIX="from now"
+MESSAGE="[${PREFIX}] `date`"
+
+if [ $# -eq 0 ]
+then
+    git commit -a -m "${MESSAGE}"
+elif [ $1 != "--rebase" ]
+then
+    git add $@
+    git commit -m "${MESSAGE}"
+else
+    FIRST_NOW_COMMIT=`git log --pretty=oneline | grep "${PREFIX}" | tail -n 1 | cut -d " " -f 1`
+    INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
+
+    if [ ${FIRST_NOW_COMMIT} != ${INITIAL_COMMIT} ]
+    then
+	git rebase -i ${FIRST_NOW_COMMIT}^
+    else
+        WORKING_BRANCH=`git branch -l | grep "*" | cut -d " " -f 2`
+
+	git checkout ${FIRST_NOW_COMMIT}
+	git commit --amend
+	git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
+    fi
+fi
