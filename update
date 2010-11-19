@@ -1,0 +1,12 @@
+#!/bin/sh
+
+PREFIX="from now"
+
+if [ ! "`git log --pretty=oneline $3 | head -n 1 | grep "${PREFIX}"`" ]
+then
+    exit 0
+else
+    echo "error: There are tmp log messages in the received objects." 1>&2
+    echo "error: Change these messages by 'git now --rebase'." 1>&2
+    exit 1
+fi
