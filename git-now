@@ -6,11 +6,11 @@ MESSAGE="[${PREFIX}] `date`"
 if [ $# -eq 0 ]
 then
     git add -u
-    echo -e "${MESSAGE}\n\n`git diff --cached`" | git commit -F -
+    echo "${MESSAGE}\n\n`git diff --cached`" | git commit -F -
 elif [ $1 != "--rebase" ]
 then
     git add $@
-    echo -e "${MESSAGE}\n\n`git diff --cached`" | git commit -F -
+    echo "${MESSAGE}\n\n`git diff --cached`" | git commit -F -
 else
     FIRST_NOW_COMMIT=`git log --pretty=oneline --grep "${PREFIX}" | tail -n 1 | cut -d " " -f 1`
     INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
