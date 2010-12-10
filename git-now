@@ -6,23 +6,23 @@ MESSAGE="[${PREFIX}] `date`"
 if [ $# -eq 0 ]
 then
     git add -u
-    printf "${MESSAGE}\n\n`git diff --cached`" | git commit -F -
+    printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
 elif [ $1 != "--rebase" ]
 then
     git add $@
-    printf "${MESSAGE}\n\n`git diff --cached`" | git commit -F -
+    printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
 else
-    FIRST_NOW_COMMIT=`git log --pretty=oneline --grep "${PREFIX}" | tail -n 1 | cut -d " " -f 1`
+    FIRST_NOW_COMMIT=`git log --pretty=oneline --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1`
     INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
 
     if [ ${FIRST_NOW_COMMIT} != ${INITIAL_COMMIT} ]
     then
-	git rebase -i ${FIRST_NOW_COMMIT}^
+        git rebase -i ${FIRST_NOW_COMMIT}^
     else
         WORKING_BRANCH=`git branch -l | grep "*" | cut -d " " -f 2`
 
-	git checkout ${FIRST_NOW_COMMIT}
-	git commit --amend
-	git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
+        git checkout ${FIRST_NOW_COMMIT}
+        git commit --amend
+        git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
     fi
 fi
