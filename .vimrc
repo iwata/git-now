@@ -1,0 +1,1 @@
+nnoremap <Space>gn :<C-u>w<CR>:Git now<CR>
