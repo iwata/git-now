@@ -9,7 +9,13 @@ then
     printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
 elif [ $1 != "--rebase" ]
 then
-    git add $@
+	if [ $1 != "--all" ]
+	then
+		git add $@
+	else
+		git add -u
+		git add .
+	fi
     printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
 else
     FIRST_NOW_COMMIT=`git log --pretty=oneline --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1`
