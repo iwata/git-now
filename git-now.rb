@@ -1,7 +1,7 @@
 require 'formula'
 
 class GitNow < GithubGistFormula
-  url 'https://raw.github.com/gist/878015/8a7158b2bfce40415b3a0394afd45c442addfe06/git-now'
-  md5 '144c3759343e59187dffd8a7c4cf61a2'
-  homepage 'https://gist.github.com/878015/'
+  url 'https://gist.github.com/raw/1167062/03c52077ce8c7fb72537bdf9cbd50bd11f3a9d5c/git-now'
+  md5 '72a36ca8deb21b7cc26b8a8f5dc3e7be'
+  homepage 'https://gist.github.com/1167062'
 end
