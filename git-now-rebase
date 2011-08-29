@@ -1,0 +1,66 @@
+#!/bin/sh
+
+usage_exit() {
+        echo "Usage: git now rebase [-h] [-p] [-r remote] [base_branch] " 1>&2
+        exit 1
+}
+#
+# Options
+#
+while getopts "pr:h" GETOPTS
+do
+  case $GETOPTS in
+  p)    PUSH_FLAG=yes
+        ;;
+  r)    REMOTE_NAME=$OPTARG
+        ;;
+  h)    usage_exit
+        ;;
+  *)    usage_exit
+        ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+PREFIX="from now"
+WORKING_BRANCH=`git branch -l | grep "*" | cut -d " " -f 2`
+
+if [ $# -eq 0 ]
+then
+  FIRST_NOW_COMMIT=`git log --pretty=oneline --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1`
+  INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
+
+  if [ ${FIRST_NOW_COMMIT} != ${INITIAL_COMMIT} ]
+  then
+    echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+  else
+    echo "git checkout ${FIRST_NOW_COMMIT}"
+    echo "git commit --amend"
+    echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+  fi
+else
+  BASE_BRANCH=$1
+  COMMON_ANCESTOR_COMMIT=`git merge-base ${BASE_BRANCH} ${WORKING_BRANCH}`
+  FIRST_NOW_COMMIT=`git log ${COMMON_ANCESTOR_COMMIT}.. --pretty=oneline --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1`
+  INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
+
+  if [ ${FIRST_NOW_COMMIT} != ${INITIAL_COMMIT} ]
+  then
+    echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+  else
+    echo "git checkout ${FIRST_NOW_COMMIT}"
+    echo "git commit --amend"
+    echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+  fi
+fi
+
+if [ $PUSH_FLAG ]
+then
+  if [ $REMOTE_NAME ]
+  then
+    echo "git push --set-upstream ${WORKING_BRANCH} ${REMOTE_NAME}/${WORKING_BRANCH}"
+  else
+    echo "git push"
+  fi
+fi
