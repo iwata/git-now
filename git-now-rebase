@@ -59,7 +59,7 @@ _cmd_push() {
   local branch=$1
   local remote=$2
   if [ -n "$remote" ]; then
-    echo "git push --set-upstream ${branch} ${remote}/${branch}"
+    echo "git push --set-upstream ${remote} ${branch}"
   else
     echo "git push"
   fi
