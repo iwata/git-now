@@ -1,20 +1,89 @@
 #!/bin/sh
 
-PREFIX="from now"
-MESSAGE="[${PREFIX}] `date +\"%Y/%m/%d %T\"`"
-
-if [ $# -eq 0 ]
-then
-  git add -u
-  printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
-else
-then
-  if [ $1 != "--all" ]
-  then
-    git add $@
-  else
-    git add -u
-    git add .
-  fi
-  printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+# enable debug mode
+if [ "$DEBUG" = "yes" ]; then
+	set -x
 fi
+
+export GITNOW_DIR=$(dirname "$0")
+PREFIX="from now"
+
+usage() {
+	echo "usage: git now [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]"
+  echo "               [--edit | -e] [--all | [--update | -u]] [--intent-to-add | -N]"
+  echo "               [--refresh] [--ignore-errors] [--ignore-missing] [--]"
+  echo "               [<filepattern>...]"
+  echo
+  echo "       git now <subcommand>"
+	echo
+	echo "Available subcommands are:"
+	echo "   rebase    rebase for temporary commits."
+	echo
+	echo "Try 'git now <subcommand> help' for details."
+}
+
+main() {
+	# load common functionality
+	. "$GITNOW_DIR/gitnow-common"
+
+	# This environmental variable fixes non-POSIX getopt style argument
+	# parsing, effectively breaking git-now subcommand parsing on several
+	# Linux platforms.
+	export POSIXLY_CORRECT=1
+
+	# use the shFlags project to parse the command line arguments
+	. "$GITNOW_DIR/gitnow-shFlags"
+	FLAGS_PARENT="git now"
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
+
+	# sanity checks
+	SUBCOMMAND="$1"; shift
+
+	if [ ! -e "$GITNOW_DIR/git-now-$SUBCOMMAND" ]; then
+    if [ "$SUBCOMMAND" = "help" ]; then
+      usage
+    else
+      main_add "$@"
+    fi
+		exit 0
+	fi
+
+	# run command
+	. "$GITNOW_DIR/git-now-$SUBCOMMAND"
+	FLAGS_PARENT="git now $SUBCOMMAND"
+
+	# test if the first argument is a flag (i.e. starts with '-')
+	# in that case, we interpret this arg as a flag for the default
+	# command
+  SUBACTION="default"
+  if [ "$1" = "help" ] && { ! echo "$1" | grep -q "^-"; } then
+    SUBACTION="$1"; shift
+  fi
+	#if ! type "cmd_$SUBACTION" >/dev/null 2>&1; then
+		#warn "Unknown subcommand: '$SUBACTION'"
+		#usage
+		#exit 1
+	#fi
+
+	# run the specified action
+	cmd_$SUBACTION "$@"
+}
+
+main_add() {
+  MESSAGE="[${PREFIX}] `date +\"%Y/%m/%d %T\"`"
+  if [ $# -eq 0 ]; then
+    echo "git add -u"
+    #printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+  else
+    if [ $1 != "--all" ]; then
+      echo "git add $@"
+    else
+      echo "git add -u"
+      echo "git add ."
+    fi
+    #printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+  fi
+}
+
+main "$@"

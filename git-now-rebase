@@ -1,66 +1,67 @@
-#!/bin/sh
-
-usage_exit() {
-        echo "Usage: git now rebase [-h] [-p] [-r remote] [base_branch] " 1>&2
-        exit 1
+usage() {
+  echo "usage: git now rebase [<base_branch>]"
+  echo "       git now rebase -p [-r <remote>] [<base_branch>]"
 }
-#
-# Options
-#
-while getopts "pr:h" GETOPTS
-do
-  case $GETOPTS in
-  p)    PUSH_FLAG=yes
-        ;;
-  r)    REMOTE_NAME=$OPTARG
-        ;;
-  h)    usage_exit
-        ;;
-  *)    usage_exit
-        ;;
-  esac
-done
 
-shift $((OPTIND - 1))
 
-PREFIX="from now"
-WORKING_BRANCH=`git branch -l | grep "*" | cut -d " " -f 2`
+cmd_default() {
+  parse_args "$@"
 
-if [ $# -eq 0 ]
-then
-  FIRST_NOW_COMMIT=`git log --pretty=oneline --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1`
-  INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
+  WORKING_BRANCH=$(git_current_branch)
+  INITIAL_COMMIT=$(git_now_initial_commit)
 
-  if [ ${FIRST_NOW_COMMIT} != ${INITIAL_COMMIT} ]
-  then
-    echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+  if [ -n "$BASE_BRANCH" ]; then
+    COMMON_ANCESTOR_COMMIT=`git merge-base ${BASE_BRANCH} ${WORKING_BRANCH}`
+    FIRST_NOW_COMMIT=$(git_now_first_commit $COMMON_ANCESTOR_COMMIT)
+
+    if [ "$FIRST_NOW_COMMIT" != "$INITIAL_COMMIT" ]; then
+      echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+    else
+      echo "git checkout ${FIRST_NOW_COMMIT}"
+      echo "git commit --amend"
+      echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+    fi
   else
-    echo "git checkout ${FIRST_NOW_COMMIT}"
-    echo "git commit --amend"
-    echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+    FIRST_NOW_COMMIT=$(git_now_first_commit)
+
+    if [ "$FIRST_NOW_COMMIT" != "$INITIAL_COMMIT" ]; then
+      echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+    else
+      echo "git checkout ${FIRST_NOW_COMMIT}"
+      echo "git commit --amend"
+      echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+    fi
   fi
-else
+
+  if flag push; then
+    _cmd_push $WORKING_BRANCH $REMOTE
+  fi
+}
+
+cmd_help() {
+  usage
+  exit 0
+}
+
+parse_args() {
+  # parse options
+  DEFINE_boolean push false 'push to remote repository finally' 'p'
+  DEFINE_string remote '' 'remote branch name to --set-upstream' 'r'
+  FLAGS "$@" || exit $?
+  eval set -- "${FLAGS_ARGV}"
+
+  # read arguments into global variables
   BASE_BRANCH=$1
-  COMMON_ANCESTOR_COMMIT=`git merge-base ${BASE_BRANCH} ${WORKING_BRANCH}`
-  FIRST_NOW_COMMIT=`git log ${COMMON_ANCESTOR_COMMIT}.. --pretty=oneline --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1`
-  INITIAL_COMMIT=`git log --pretty=oneline | tail -n 1 | cut -d " " -f 1`
+  REMOTE=$FLAGS_remote
+}
 
-  if [ ${FIRST_NOW_COMMIT} != ${INITIAL_COMMIT} ]
-  then
-    echo "git rebase -i ${FIRST_NOW_COMMIT}^"
-  else
-    echo "git checkout ${FIRST_NOW_COMMIT}"
-    echo "git commit --amend"
-    echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
-  fi
-fi
-
-if [ $PUSH_FLAG ]
-then
-  if [ $REMOTE_NAME ]
-  then
-    echo "git push --set-upstream ${WORKING_BRANCH} ${REMOTE_NAME}/${WORKING_BRANCH}"
+_cmd_push() {
+  local branch=$1
+  local remote=$2
+  if [ -n "$remote" ]; then
+    echo "git push --set-upstream ${branch} ${remote}/${branch}"
   else
     echo "git push"
   fi
-fi
+}
+
