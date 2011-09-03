@@ -1,6 +1,6 @@
 usage() {
   echo "usage: git now rebase [<base_branch>]"
-  echo "       git now rebase -p [-r <remote>] [<base_branch>]"
+  echo "       git now rebase --push|-p [--remote|-r <remote>] [<base_branch>]"
 }
 
 
@@ -15,21 +15,21 @@ cmd_default() {
     FIRST_NOW_COMMIT=$(git_now_first_commit $COMMON_ANCESTOR_COMMIT)
 
     if [ "$FIRST_NOW_COMMIT" != "$INITIAL_COMMIT" ]; then
-      echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+      git rebase -i ${FIRST_NOW_COMMIT}^
     else
-      echo "git checkout ${FIRST_NOW_COMMIT}"
-      echo "git commit --amend"
-      echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+      git checkout ${FIRST_NOW_COMMIT}
+      git commit --amend
+      git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
     fi
   else
     FIRST_NOW_COMMIT=$(git_now_first_commit)
 
     if [ "$FIRST_NOW_COMMIT" != "$INITIAL_COMMIT" ]; then
-      echo "git rebase -i ${FIRST_NOW_COMMIT}^"
+      git rebase -i ${FIRST_NOW_COMMIT}^
     else
-      echo "git checkout ${FIRST_NOW_COMMIT}"
-      echo "git commit --amend"
-      echo "git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}"
+      git checkout ${FIRST_NOW_COMMIT}
+      git commit --amend
+      git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
     fi
   fi
 
@@ -45,8 +45,8 @@ cmd_help() {
 
 parse_args() {
   # parse options
-  DEFINE_boolean push false 'push to remote repository finally' 'p'
-  DEFINE_string remote '' 'remote branch name to --set-upstream' 'r'
+  DEFINE_boolean 'push' false 'push to remote repository finally' 'p'
+  DEFINE_string 'remote' '' 'remote branch name to --set-upstream' 'r'
   FLAGS "$@" || exit $?
   eval set -- "${FLAGS_ARGV}"
 
@@ -59,9 +59,9 @@ _cmd_push() {
   local branch=$1
   local remote=$2
   if [ -n "$remote" ]; then
-    echo "git push --set-upstream ${remote} ${branch}"
+    git push --set-upstream ${remote} ${branch}
   else
-    echo "git push"
+    git push
   fi
 }
 

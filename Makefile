@@ -29,17 +29,18 @@
 
 # Determine if we're inside a debian build .. 
 ifdef DEB_BUILD_ARCH
-   prefix=$(DESTDIR)/usr/
+	prefix=$(DESTDIR)/usr/
 else
-   prefix=/usr/local
+	prefix=/usr/local
 endif
 
 # files that need mode 755
 EXEC_FILES=git-now
 
 # files that need mode 644
-SCRIPT_FILES =git-now-rebase
-SCRIPT_FILES+=git-now-update
+SCRIPT_FILES =git-now-add
+SCRIPT_FILES+=git-now-grep
+SCRIPT_FILES+=git-now-rebase
 SCRIPT_FILES+=gitnow-common
 SCRIPT_FILES+=gitnow-shFlags
 
@@ -54,5 +55,5 @@ install:
 
 uninstall:
 	test -d $(prefix)/bin && \
-	cd $(prefix)/bin && \
-	rm -f $(EXEC_FILES) $(SCRIPT_FILES)
+		cd $(prefix)/bin && \
+		rm -f $(EXEC_FILES) $(SCRIPT_FILES)

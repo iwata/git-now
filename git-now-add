@@ -1,0 +1,28 @@
+usage() {
+  echo "usage: git now add [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]"
+  echo "               [--edit | -e] [--all | [--update | -u]] [--intent-to-add | -N]"
+  echo "               [--refresh] [--ignore-errors] [--ignore-missing] [--]"
+  echo "               [<filepattern>...]"
+}
+
+cmd_default() {
+  MESSAGE="[${PREFIX}] `date +\"%Y/%m/%d %T\"`"
+  if [ $# -eq 0 ]; then
+    git add -u
+    printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+  else
+    if [ $1 != "--all" ]; then
+      git add $@
+    else
+      git add -u
+      git add .
+    fi
+    printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+  fi
+}
+
+cmd_help() {
+  usage
+  exit 0
+}
+
