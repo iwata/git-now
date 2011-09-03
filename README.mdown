@@ -1,0 +1,61 @@
+git-now
+========
+``git-now`` is a command-line tool for light and temporary commit
+with a log message from time now and diff.
+
+Usage
+---------------
+Create a temporary commit:
+
+    $ git now
+
+You can use the same option as ``git add``.
+
+    $ git now [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]
+              [--edit | -e] [--all | [--update | -u]] [--intent-to-add | -N]
+              [--refresh] [--ignore-errors] [--ignore-missing] [--]
+              [<filepattern>...]
+
+### Subcommands
+
+Available subcommands are:
+
+ * rebase -    rebase for temporary commits.
+ * grep -      grep temporary commits.
+
+_Try 'git now \<subcommand\> help' for details._
+
+
+Installation
+-------------------
+
+### Mac OS
+If you're on a Mac and use [homebrew](http://github.com/mxcl/homebrew), it's simple:
+
+    $ brew install https://github.com/iwata/git-now/raw/master/git-now.rb
+
+### Manual installation
+If you prefer a manual installation, please use the following instructions:
+
+	$ git clone --recursive git://github.com/iwata/git-now.git
+
+Then, you can install `git-now`, using:
+
+	$ sudo make install
+
+By default, git-now will be installed in /usr/local. To change the prefix
+where git-now will be installed, simply specify it explicitly, using:
+
+	$ sudo make prefix=/opt/local install
+
+Or simply point your `PATH` environment variable to your git-now checkout
+directory.
+
+
+Special Thanks
+---------------
+
+* [An original git-now idea](http://d.hatena.ne.jp/sinsoku/20101208/1291770514) (by [Toshiyuki Kawanishi](https://github.com/toshi-kawanishi))
+* [Installation with homebrew](http://d.hatena.ne.jp/nobeans/20110322/1300776839) (by [Yasuharu NAKANO](https://github.com/nobeans))
+
+
