@@ -1,0 +1,29 @@
+usage() {
+  echo "usage: git now grep [<base_branch>]"
+}
+
+cmd_default() {
+  parse_args "$@"
+
+  if [ -n "$BASE_BRANCH" ]; then
+    WORKING_BRANCH=$(git_current_branch)
+    COMMON_ANCESTOR_COMMIT=`git merge-base ${BASE_BRANCH} ${WORKING_BRANCH}`
+    echo `git log ${COMMON_ANCESTOR_COMMIT}.. --pretty=oneline --grep="${PREFIX}"`
+  else
+    echo `git log --pretty=oneline --grep="${PREFIX}"`
+  fi
+}
+
+parse_args() {
+  # parse options
+  FLAGS "$@" || exit $?
+  eval set -- "${FLAGS_ARGV}"
+  # read arguments into global variables
+  BASE_BRANCH=$1
+}
+
+cmd_help() {
+  usage
+  exit 0
+}
+
