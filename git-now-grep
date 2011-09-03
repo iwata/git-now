@@ -1,5 +1,5 @@
 usage() {
-  echo "usage: git now grep [<base_branch>]"
+  echo "usage: git now grep [<base-branch>]"
 }
 
 cmd_default() {
