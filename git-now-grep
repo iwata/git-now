@@ -1,5 +1,5 @@
 usage() {
-  echo "usage: git now grep [<base-branch>]"
+  echo "usage: git now grep [--patch|-p] [--stat|-s] [<base-branch>]"
 }
 
 cmd_default() {
@@ -8,18 +8,27 @@ cmd_default() {
   if [ -n "$BASE_BRANCH" ]; then
     WORKING_BRANCH=$(git_current_branch)
     COMMON_ANCESTOR_COMMIT=`git merge-base ${BASE_BRANCH} ${WORKING_BRANCH}`
-    echo `git log ${COMMON_ANCESTOR_COMMIT}.. --pretty=oneline --grep="${PREFIX}"`
+    git log${ARGS} ${COMMON_ANCESTOR_COMMIT}.. --pretty=format:"%h - %an, %ar : %s" --grep="${PREFIX}"
   else
-    echo `git log --pretty=oneline --grep="${PREFIX}"`
+    git log${ARGS} --pretty=format:"%h - %an, %ar : %s" --grep="${PREFIX}"
   fi
 }
 
 parse_args() {
   # parse options
+  DEFINE_boolean 'patch' false 'generate diff in patch format' 'p'
+  DEFINE_boolean 'stat' false 'generate diffstat instead of patch' 's'
   FLAGS "$@" || exit $?
   eval set -- "${FLAGS_ARGV}"
   # read arguments into global variables
   BASE_BRANCH=$1
+  ARGS=
+  if flag patch; then
+    ARGS="${ARGS} -p"
+  fi
+  if flag stat; then
+    ARGS="${ARGS} --stat"
+  fi
 }
 
 cmd_help() {
