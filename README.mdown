@@ -52,7 +52,7 @@ Or simply point your `PATH` environment variable to your git-now checkout
 directory.
 
 
-Special Thanks
+See also
 ---------------
 
 * [An original git-now idea](http://d.hatena.ne.jp/sinsoku/20101208/1291770514) (by [Toshiyuki Kawanishi](https://github.com/toshi-kawanishi))
