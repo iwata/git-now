@@ -1,6 +1,8 @@
 usage() {
   echo "usage: git now rebase [<base-branch>]"
-  echo "       git now rebase --push|-p [--remote|-r <remote>] [<base-branch>]"
+  echo "       git now rebase --push [<base-branch>]"
+  echo "       git now rebase --push --upstream <remote> [<base-branch>]"
+  echo "       git now rebase --push --remove <remote> [<base-branch>]"
 }
 
 
@@ -34,7 +36,14 @@ cmd_default() {
   fi
 
   if flag push; then
-    _cmd_push $WORKING_BRANCH $REMOTE
+    if [ -n "$UPSTREAM_REMOTE" ]; then
+      git push --set-upstream $UPSTREAM_REMOTE $WORKING_BRANCH
+    elif [ -n "$REMOVE_REMOTE" ]; then
+      git push $REMOVE_REMOTE :$WORKING_BRANCH
+      git push
+    else
+      git push
+    fi
   fi
 }
 
@@ -45,23 +54,15 @@ cmd_help() {
 
 parse_args() {
   # parse options
-  DEFINE_boolean 'push' false 'push to remote repository finally' 'p'
-  DEFINE_string 'remote' '' 'remote branch name to --set-upstream' 'r'
+  DEFINE_boolean 'push' false 'push to remote repository finally' ''
+  DEFINE_string 'remove' '' 'remote name to remove the remote branch before push' ''
+  DEFINE_string 'upstream' '' 'remote name for --set-upstream' ''
   FLAGS "$@" || exit $?
   eval set -- "${FLAGS_ARGV}"
 
   # read arguments into global variables
   BASE_BRANCH=$1
-  REMOTE=$FLAGS_remote
-}
-
-_cmd_push() {
-  local branch=$1
-  local remote=$2
-  if [ -n "$remote" ]; then
-    git push --set-upstream ${remote} ${branch}
-  else
-    git push
-  fi
+  UPSTREAM_REMOTE=$FLAGS_upstream
+  REMOVE_REMOTE=$FLAGS_remove
 }
 
