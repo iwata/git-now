@@ -1,5 +1,5 @@
 usage() {
-  echo "usage: git now grep [--patch|-p] [--stat|-s] [<base-branch>]"
+  echo "usage: git now grep [--patch|-p] [--stat|-s] [--author|-a] [<base-branch>]"
 }
 
 cmd_default() {
@@ -18,6 +18,7 @@ parse_args() {
   # parse options
   DEFINE_boolean 'patch' false 'generate diff in patch format' 'p'
   DEFINE_boolean 'stat' false 'generate diffstat instead of patch' 's'
+  DEFINE_boolean 'author' false 'limit git-now commits by your name' 'a'
   FLAGS "$@" || exit $?
   eval set -- "${FLAGS_ARGV}"
   # read arguments into global variables
@@ -28,6 +29,10 @@ parse_args() {
   fi
   if flag stat; then
     ARGS="${ARGS} --stat"
+  fi
+  if flag author; then
+    AUTHOR=$(escape `git config --get user.name`)
+    ARGS="${ARGS} --author=$AUTHOR"
   fi
 }
 

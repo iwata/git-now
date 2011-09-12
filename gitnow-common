@@ -49,4 +49,14 @@ git_now_first_commit() {
   fi
 }
 
+git_now_my_first_commit() {
+  local author=$(escape `git config --get user.name`)
+  local common=$1
+  if [ $# -eq 1 ]; then
+      git log ${common}.. --pretty=oneline --author=${author} --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1
+  else
+      git log --pretty=oneline --author=${author} --grep="${PREFIX}" | tail -n 1 | cut -d " " -f 1
+  fi
+}
+
 git_now_initial_commit() { git log --pretty=oneline | tail -n 1 | cut -d " " -f 1; }
