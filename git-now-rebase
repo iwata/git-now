@@ -1,5 +1,5 @@
 usage() {
-  echo "usage: git now rebase [--author|-a] [<base-branch>]"
+  echo "usage: git now rebase [--mine|-m] [<base-branch>]"
   #echo "       git now rebase --push [<base-branch>]"
   #echo "       git now rebase --push --upstream <remote> [<base-branch>]"
   #echo "       git now rebase --push --remove <remote> [<base-branch>]"
@@ -14,7 +14,7 @@ cmd_default() {
 
   if [ -n "$BASE_BRANCH" ]; then
     COMMON_ANCESTOR_COMMIT=`git merge-base ${BASE_BRANCH} ${WORKING_BRANCH}`
-    if flag author; then
+    if flag mine; then
       FIRST_NOW_COMMIT=$(git_now_my_first_commit $COMMON_ANCESTOR_COMMIT)
     else
       FIRST_NOW_COMMIT=$(git_now_first_commit $COMMON_ANCESTOR_COMMIT)
@@ -28,7 +28,7 @@ cmd_default() {
       git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
     fi
   else
-    if flag author; then
+    if flag mine; then
       FIRST_NOW_COMMIT=$(git_now_my_first_commit)
     else
       FIRST_NOW_COMMIT=$(git_now_first_commit)
@@ -62,7 +62,7 @@ cmd_help() {
 
 parse_args() {
   # parse options
-  DEFINE_boolean 'author' false 'limit git-now commits by your name' 'a'
+  DEFINE_boolean 'mine' false 'limit git-now commits by my name' 'm'
   #DEFINE_boolean 'push' false 'push to remote repository finally' ''
   #DEFINE_string 'remove' '' 'remote name to remove the remote branch before push' ''
   #DEFINE_string 'upstream' '' 'remote name for --set-upstream' ''
