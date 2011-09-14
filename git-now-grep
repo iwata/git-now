@@ -30,7 +30,7 @@ parse_args() {
   if flag stat; then
     ARGS="${ARGS} --stat"
   fi
-  if flag author; then
+  if flag mine; then
     AUTHOR=$(escape `git config --get user.name`)
     ARGS="${ARGS} --author=$AUTHOR"
   fi
