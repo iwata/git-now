@@ -1,8 +1,8 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.0.4.4'
-  version '0.0.4.4'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.0.5.0'
+  version '0.0.5.0'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
