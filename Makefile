@@ -41,6 +41,7 @@ EXEC_FILES=git-now
 SCRIPT_FILES =git-now-add
 SCRIPT_FILES+=git-now-grep
 SCRIPT_FILES+=git-now-rebase
+SCRIPT_FILES+=git-now-push
 SCRIPT_FILES+=gitnow-common
 SCRIPT_FILES+=gitnow-shFlags
 

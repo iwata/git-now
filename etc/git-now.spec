@@ -22,7 +22,6 @@ git now: making convenient git commit
 %install
 mkdir -p $RPM_BUILD_ROOT/usr/libexec/git-core
 make prefix=$RPM_BUILD_ROOT/usr/libexec/git-core install
-chmod +x $RPM_BUILD_ROOT/usr/libexec/git-core/git-now
 
 %clean
 rm -Rf $RPM_BUILD_ROOT
