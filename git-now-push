@@ -1,0 +1,23 @@
+usage() {
+  echo "usage: git now push [<remote-repository>]"
+}
+
+
+cmd_default() {
+  REMOTE=$1
+
+  WORKING_BRANCH=$(git_current_branch)
+
+  if [ -n "$REMOTE" ]; then
+    git push ${REMOTE} :${WORKING_BRANCH} && git push ${REMOTE} ${WORKING_BRANCH}
+  else
+    git push origin :${WORKING_BRANCH} && git push
+  fi
+}
+
+cmd_help() {
+  usage
+  exit 0
+}
+
+# vim: set ff=unix ft=sh :

@@ -41,3 +41,4 @@ cmd_help() {
   exit 0
 }
 
+# vim: set ff=unix ft=sh :

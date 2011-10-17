@@ -1,8 +1,5 @@
 usage() {
   echo "usage: git now rebase [--mine|-m] [<base-branch>]"
-  #echo "       git now rebase --push [<base-branch>]"
-  #echo "       git now rebase --push --upstream <remote> [<base-branch>]"
-  #echo "       git now rebase --push --remove <remote> [<base-branch>]"
 }
 
 
@@ -42,17 +39,6 @@ cmd_default() {
       git rebase --onto HEAD ${FIRST_NOW_COMMIT} ${WORKING_BRANCH}
     fi
   fi
-
-  #if flag push; then
-    #if [ -n "$UPSTREAM_REMOTE" ]; then
-      #git push --set-upstream $UPSTREAM_REMOTE $WORKING_BRANCH
-    #elif [ -n "$REMOVE_REMOTE" ]; then
-      #git push $REMOVE_REMOTE :$WORKING_BRANCH
-      #git push
-    #else
-      #git push
-    #fi
-  #fi
 }
 
 cmd_help() {
@@ -63,15 +49,11 @@ cmd_help() {
 parse_args() {
   # parse options
   DEFINE_boolean 'mine' false 'limit git-now commits by my name' 'm'
-  #DEFINE_boolean 'push' false 'push to remote repository finally' ''
-  #DEFINE_string 'remove' '' 'remote name to remove the remote branch before push' ''
-  #DEFINE_string 'upstream' '' 'remote name for --set-upstream' ''
   FLAGS "$@" || exit $?
   eval set -- "${FLAGS_ARGV}"
 
   # read arguments into global variables
   BASE_BRANCH=$1
-  #UPSTREAM_REMOTE=$FLAGS_upstream
-  #REMOVE_REMOTE=$FLAGS_remove
 }
 
+# vim: set ff=unix ft=sh :

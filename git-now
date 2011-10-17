@@ -19,6 +19,7 @@ usage() {
   echo "Available subcommands are:"
   echo "   add       default subcommand."
   echo "   rebase    rebase for temporary commits."
+  echo "   push      remove remote branch before push to remote repoistory for rebase commits."
   echo "   grep      grep temporary commits."
   echo
   echo "Try 'git now <subcommand> help' for details."
