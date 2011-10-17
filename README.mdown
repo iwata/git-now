@@ -1,7 +1,7 @@
 git-now
 ========
-``git-now`` is a command-line tool for light and temporary commit
-with a log message from time now and diff.
+``git-now`` is a command-line tool for light and temporary commit.
+It commits with a log message from time now and diff.
 
 Usage
 ---------------
@@ -13,7 +13,7 @@ You can use the same option as ``git add``.
 
     $ git now [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]
               [--edit | -e] [--all | [--update | -u]] [--intent-to-add | -N]
-              [--refresh] [--ignore-errors] [--ignore-missing] [--]
+              [--refresh] [--ignore-errors] [--ignore-missing] [--stat | -s] [--]
               [<filepattern>...]
 
 ### Subcommands
@@ -21,7 +21,8 @@ You can use the same option as ``git add``.
 Available subcommands are:
 
  * rebase -    rebase for temporary commits.
- * push   -    rebuild remote branch after rebase.
+ * push   -    rebuild that is remove and push remote branch.<br />
+   _If you already pushed ``git-now`` commits to remote and rebase these, you should run this subcommand._
  * grep   -    grep temporary commits.
 
 _Try 'git now \<subcommand\> help' for details._
