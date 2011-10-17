@@ -1,7 +1,7 @@
 usage() {
   echo "usage: git now add [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]"
   echo "               [--edit | -e] [--all | [--update | -u]] [--intent-to-add | -N]"
-  echo "               [--refresh] [--ignore-errors] [--ignore-missing] [--]"
+  echo "               [--refresh] [--ignore-errors] [--ignore-missing] [ --stat | -s ] [--]"
   echo "               [<filepattern>...]"
 }
 
@@ -11,13 +11,32 @@ cmd_default() {
     git add -u
     printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
   else
+    local is_stat=false
+    local args=()
+
+    # args loop
+    for arg in "$@"
+    do
+      if [ $arg = "--stat" ] || [ $arg = "-s" ]; then
+        is_stat=true
+      else
+        n=${#args[@]}
+        args[$n]=$arg
+      fi
+    done
+
     if [ $1 != "--all" ]; then
-      git add $@
+      git add ${args[@]}
     else
       git add -u
       git add .
     fi
-    printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+
+    if $is_stat; then
+      printf "${MESSAGE}\n\n%s" "`git diff --cached --stat`" | git commit -F -
+    else
+      printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+    fi
   fi
 }
 
@@ -26,3 +45,4 @@ cmd_help() {
   exit 0
 }
 
+# vim: set ff=unix ft=sh :

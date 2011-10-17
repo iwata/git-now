@@ -34,6 +34,7 @@ _git-now ()
       subcommands=(
       'add:default subcommand.'
       'rebase:rebase for temporary commits.'
+      'push:remove remote branch and push to remote repoistory for rebase commits.'
       'grep:grep temporary commits.'
       )
       _describe -t commands 'git now' subcommands
@@ -51,6 +52,11 @@ _git-now ()
           _arguments \
             '-m[limit git-now commits by your name]'\
             ':branch-name:__git_branch_names'
+          ;;
+
+        (push)
+          _arguments \
+            ':remote-repostory:__git_remotes'
           ;;
 
         (grep)
@@ -82,6 +88,7 @@ __git-now-add ()
     '-e[open diff against index in editor]'\
     '-u[update only files git already knows about]'\
     '-N[record only that path will be added later]'\
+    '-s[generate diffstat instead of patch]'\
     ':filepattern:_files'
 }
 

@@ -60,3 +60,5 @@ git_now_my_first_commit() {
 }
 
 git_now_initial_commit() { git log --pretty=oneline | tail -n 1 | cut -d " " -f 1; }
+
+# vim: set ff=unix ft=sh

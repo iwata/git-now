@@ -21,7 +21,8 @@ You can use the same option as ``git add``.
 Available subcommands are:
 
  * rebase -    rebase for temporary commits.
- * grep -      grep temporary commits.
+ * push   -    rebuild remote branch after rebase.
+ * grep   -    grep temporary commits.
 
 _Try 'git now \<subcommand\> help' for details._
 
