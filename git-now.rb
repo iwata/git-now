@@ -1,8 +1,8 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.0.5.1'
-  version '0.0.5.1'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.0.6.0'
+  version '0.0.6.0'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
@@ -11,7 +11,7 @@ class GitNow < Formula
 
   def install
     system "make", "prefix=#{prefix}", "install"
-    system "brew ln gnu-getopt"
+    #system "brew ln gnu-getopt"
   end
 
 end

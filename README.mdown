@@ -58,5 +58,9 @@ See also
 * [An original git-now idea](http://d.hatena.ne.jp/sinsoku/20101208/1291770514) (by [Toshiyuki Kawanishi](https://github.com/toshi-kawanishi))
 * [Installation with homebrew](http://d.hatena.ne.jp/nobeans/20110322/1300776839) (by [Yasuharu NAKANO](https://github.com/nobeans))
 * [Referred to shell scripts](https://github.com/nvie/gitflow) (by [Vincent Driessen](https://github.com/nvie))
+* [Write the RPM spec](http://d.hatena.ne.jp/kazuhisya/20110704/1309783736) (by [Kazuhisa Hara](https://github.com/kazuhisya))
 
-
+Special thanks
+---------------
+ * [MIZUNO Hiroki](https://github.com/mzp)
+ * [todesking](https://github.com/todesking)
