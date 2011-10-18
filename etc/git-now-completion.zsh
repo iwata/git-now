@@ -60,7 +60,7 @@ _git-now ()
           ;;
 
         (grep)
-          _arguments \
+          _arguments -s : \
             '-p[generate diff in patch format]'\
             '-s[generate diffstat instead of patch]'\
             '-m[limit git-now commits by your name]'\
@@ -79,7 +79,7 @@ __git-now-add ()
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  _arguments \
+  _arguments -s : \
     '-n[do not actually add files; only show which ones would be added]'\
     '-v[show files as they are added]'\
     '-f[allow adding otherwise ignored files]'\
