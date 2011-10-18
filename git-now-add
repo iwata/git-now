@@ -1,8 +1,8 @@
 usage() {
   echo "usage: git now add [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]"
   echo "               [--edit | -e] [--all | [--update | -u]] [--intent-to-add | -N]"
-  echo "               [--refresh] [--ignore-errors] [--ignore-missing] [ --stat | -s ] [--]"
-  echo "               [<filepattern>...]"
+  echo "               [--refresh] [--ignore-errors] [--ignore-missing] [--stat | -s] [--push]"
+  echo "               [--] [<filepattern>...]"
 }
 
 cmd_default() {
@@ -11,7 +11,9 @@ cmd_default() {
     git add -u
     printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
   else
+    local is_all=false
     local is_stat=false
+    local is_push=false
     local args=()
 
     # args loop
@@ -19,13 +21,17 @@ cmd_default() {
     do
       if [ $arg = "--stat" ] || [ $arg = "-s" ]; then
         is_stat=true
+      elif [ $arg = "--all" ]; then
+        is_all=true
+      elif [ $arg = "--push" ]; then
+        is_push=true
       else
         n=${#args[@]}
         args[$n]=$arg
       fi
     done
 
-    if [ $1 != "--all" ]; then
+    if ! $is_all; then
       git add ${args[@]}
     else
       git add -u
@@ -37,6 +43,7 @@ cmd_default() {
     else
       printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
     fi
+    $is_push && git push
   fi
 }
 
