@@ -20,7 +20,7 @@
 
 _git-now ()
 {
-  local curcontext="$curcontext" state line
+  local curcontext="$curcontext" state line expl
   typeset -A opt_args
 
   _arguments -C \
@@ -50,7 +50,7 @@ _git-now ()
 
         (rebase)
           _arguments \
-            '-m[limit git-now commits by your name]'\
+            '(-m --mine)'{-m,--mine}'[limit git-now commits by your name]'\
             ':branch-name:__git_branch_names'
           ;;
 
@@ -61,9 +61,9 @@ _git-now ()
 
         (grep)
           _arguments -s : \
-            '-p[generate diff in patch format]'\
-            '-s[generate diffstat instead of patch]'\
-            '-m[limit git-now commits by your name]'\
+            '(-p --path)'{-p,--patch}'[generate diff in patch format]'\
+            '(-s --stat)'{-s,--stat}'[generate diffstat instead of patch]'\
+            '(-m --mine)'{-m,--mine}'[limit git-now commits by your name]'\
             ':branch-name:__git_branch_names'
           ;;
         (*)
@@ -76,19 +76,21 @@ _git-now ()
 
 __git-now-add ()
 {
-  local curcontext="$curcontext" state line
+  local curcontext="$curcontext" state line expl
   typeset -A opt_args
 
-  _arguments -s : \
-    '-n[do not actually add files; only show which ones would be added]'\
-    '-v[show files as they are added]'\
-    '-f[allow adding otherwise ignored files]'\
-    '-i[add contents interactively to index]'\
-    '-p[like -i but go directly into patch mode for specified files]'\
-    '-e[open diff against index in editor]'\
-    '-u[update only files git already knows about]'\
-    '-N[record only that path will be added later]'\
-    '-s[generate diffstat instead of patch]'\
+  _arguments -s :\
+    '(--all)-n[do not actually add files; only show which ones would be added]'\
+    '(--all)-v[show files as they are added]'\
+    '(-f --force --all)'{-f,--force}'[allow adding otherwise ignored files]'\
+    '(-i --interactive --all)'{-i,--interactive}'[add contents interactively to index]'\
+    '(-p --path --all)'{-p,--path}'[like -i but go directly into patch mode for specified files]'\
+    '(-e --edit --all)'{-e,--edit}'[open diff against index in editor]'\
+    '(-u --update --all)'{-u,--update}'[update only files git already knows about]'\
+    '(-N --intent-to-add --all)'{-N,--intent-to-add}'[record only that path will be added later]'\
+    '(-s --stat)'{-s,--stat}'[generate diffstat instead of patch]'\
+    '--push[push to remote after performing finish]'\
+    '(-n -v -f --force -i --interactive -p --path -e --edit -u --update -N --intent-to-add)--all[add --update and add .]'\
     ':filepattern:_files'
 }
 
