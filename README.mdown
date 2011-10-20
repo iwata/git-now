@@ -36,6 +36,15 @@ If you're on a Mac and use [homebrew](http://github.com/mxcl/homebrew), it's sim
 
     $ brew install https://github.com/iwata/git-now/raw/master/git-now.rb
 
+#### install options
+ * use ``gnu-getopt``
+
+        $ brew install --gnu-getopt https://github.com/iwata/git-now/raw/master/git-now.rb
+
+ * copy zsh completion function to ``fpath``
+
+        $ brew install --zsh-completion https://github.com/iwata/git-now/raw/master/git-now.rb
+
 ### Manual installation
 If you prefer a manual installation, please use the following instructions:
 
