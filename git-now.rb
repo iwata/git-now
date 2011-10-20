@@ -1,8 +1,8 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.5'
-  version '0.1.0.5'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.6'
+  version '0.1.0.6'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
@@ -23,9 +23,10 @@ class GitNow < Formula
     if ARGV.include? '--gnu-getopt'
       system "brew ln gnu-getopt"
     end
-    if ARGV.include? '--zsh-completion'
-        fpath = `echo #{ENV['FPATH']} |cut -d ':' -f 1`
-        system "cp etc/_git-now #{fpath}" unless fpath.chomp === ''
+    if ARGV.include?('--zsh-completion') && ENV.include?('FPATH')
+      ENV['FPATH'].split(':').find do |path|
+        system "cp etc/_git-now #{path}" if File.directory? path
+      end
     end
   end
 
