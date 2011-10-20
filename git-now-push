@@ -9,8 +9,10 @@ cmd_default() {
   WORKING_BRANCH=$(git_current_branch)
 
   if [ -n "$REMOTE" ]; then
+    git pull -q ${REMOTE} ${WORKING_BRANCH}
     git push ${REMOTE} :${WORKING_BRANCH} && git push ${REMOTE} ${WORKING_BRANCH}
   else
+    git pull -q origin ${WORKING_BRANCH}
     git push origin :${WORKING_BRANCH} && git push
   fi
 }
