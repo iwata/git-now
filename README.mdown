@@ -41,7 +41,7 @@ If you're on a Mac and use [homebrew](http://github.com/mxcl/homebrew), it's sim
 
         $ brew install --gnu-getopt https://github.com/iwata/git-now/raw/master/git-now.rb
 
- * copy zsh completion function to ``fpath``
+ * copy zsh completion function
 
         $ brew install --zsh-completion https://github.com/iwata/git-now/raw/master/git-now.rb
 
