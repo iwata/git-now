@@ -1,8 +1,8 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.6'
-  version '0.1.0.6'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.7'
+  version '0.1.0.7'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
@@ -17,16 +17,17 @@ class GitNow < Formula
   if ARGV.include? '--gnu-getopt'
     depends_on 'gnu-getopt'
   end
+  if ARGV.include? '--zsh-completion'
+    depends_on 'zsh'
+  end
 
   def install
     system "make", "prefix=#{prefix}", "install"
     if ARGV.include? '--gnu-getopt'
       system "brew ln gnu-getopt"
     end
-    if ARGV.include?('--zsh-completion') && ENV.include?('FPATH')
-      ENV['FPATH'].split(':').find do |path|
-        system "cp etc/_git-now #{path}" if File.directory? path
-      end
+    if ARGV.include?('--zsh-completion')
+      "#{share}/zsh/functions".install "etc/_git-now"
     end
   end
 
