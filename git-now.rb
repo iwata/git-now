@@ -1,8 +1,8 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.7'
-  version '0.1.0.7'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.8'
+  version '0.1.0.8'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
@@ -27,7 +27,8 @@ class GitNow < Formula
       system "brew ln gnu-getopt"
     end
     if ARGV.include?('--zsh-completion')
-      "#{share}/zsh/functions".install "etc/_git-now"
+      zsh_functions_d = share + 'zsh/functions'
+      zsh_functions_d.install "etc/_git-now"
     end
   end
 
