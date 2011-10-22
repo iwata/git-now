@@ -37,31 +37,27 @@ If you're on a Mac and use [homebrew](http://github.com/mxcl/homebrew), it's sim
     $ brew install https://github.com/iwata/git-now/raw/master/git-now.rb
 
 #### install options
- * use ``gnu-getopt``
-
-        $ brew install --gnu-getopt https://github.com/iwata/git-now/raw/master/git-now.rb
-
- * copy zsh completion function for zsh users
+ * ``--zsh-completion``<br />copy zsh completion function for zsh users
 
         $ brew install --zsh-completion https://github.com/iwata/git-now/raw/master/git-now.rb
 
-Show details
+    Show details
 
-    $ brew options https://github.com/iwata/git-now/raw/master/git-now.rb
+        $ brew options https://github.com/iwata/git-now/raw/master/git-now.rb
 
 ### Manual installation
 If you prefer a manual installation, please use the following instructions:
 
-	$ git clone --recursive git://github.com/iwata/git-now.git
+    $ git clone --recursive git://github.com/iwata/git-now.git
 
 Then, you can install `git-now`, using:
 
-	$ sudo make install
+    $ sudo make install
 
 By default, git-now will be installed in /usr/local. To change the prefix
 where git-now will be installed, simply specify it explicitly, using:
 
-	$ sudo make prefix=/opt/local install
+    $ sudo make prefix=/opt/local install
 
 Or simply point your `PATH` environment variable to your git-now checkout
 directory.
