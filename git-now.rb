@@ -1,15 +1,15 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.8'
-  version '0.1.0.8'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.8.1'
+  version '0.1.0.8.1'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
   def options
     [
         ['--gnu-getopt', "Link a gnu-getopt formula"],
-        ['--zsh-completion', "copy zsh completion function file to $fpath"]
+        ['--zsh-completion', "copy zsh completion function file to #{share}/zsh/functions"]
     ]
   end
 
@@ -26,7 +26,7 @@ class GitNow < Formula
     if ARGV.include? '--gnu-getopt'
       system "brew ln gnu-getopt"
     end
-    if ARGV.include?('--zsh-completion')
+    if ARGV.include? '--zsh-completion'
       zsh_functions_d = share + 'zsh/functions'
       zsh_functions_d.install "etc/_git-now"
     end
