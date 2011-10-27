@@ -1,14 +1,14 @@
 require 'formula'
 
 class GitNow < Formula
-  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.0.9'
-  version '0.1.0.9'
+  url  'https://github.com/iwata/git-now.git', :tag => 'v0.1.1.0'
+  version '0.1.1.0'
   head 'https://github.com/iwata/git-now.git', :branch => 'develop'
   homepage 'https://github.com/iwata/git-now'
 
   def options
     [
-        ['--zsh-completion', "copy zsh completion function file to #{share}/zsh/functions"]
+        ['--zsh-completion', "copy zsh completion function file to #{share}/zsh/functions: please add #{share}/zsh/functions to $fpath in .zshrc"]
     ]
   end
 
@@ -18,10 +18,6 @@ class GitNow < Formula
 
   # for longopt
   depends_on 'gnu-getopt'
-
-  if ARGV.include? '--zsh-completion'
-    depends_on 'zsh'
-  end
 
   def install
     system "make", "prefix=#{prefix}", "install"
