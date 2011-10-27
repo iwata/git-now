@@ -16,17 +16,18 @@ __git-now-add ()
   typeset -A opt_args
 
   _arguments -s :\
-    '(--all)-n[do not actually add files; only show which ones would be added]'\
-    '(--all)-v[show files as they are added]'\
-    '(-f --force --all)'{-f,--force}'[allow adding otherwise ignored files]'\
-    '(-i --interactive --all)'{-i,--interactive}'[add contents interactively to index]'\
-    '(-p --path --all)'{-p,--path}'[like -i but go directly into patch mode for specified files]'\
-    '(-e --edit --all)'{-e,--edit}'[open diff against index in editor]'\
-    '(-u --update --all)'{-u,--update}'[update only files git already knows about]'\
-    '(-N --intent-to-add --all)'{-N,--intent-to-add}'[record only that path will be added later]'\
-    '(-s --stat)'{-s,--stat}'[generate diffstat instead of patch]'\
-    '--push[push to remote after performing finish]'\
-    '(-n -v -f --force -i --interactive -p --path -e --edit -u --update -N --intent-to-add)--all[add --update and add .]'\
+    '(--all -h --help)-n[do not actually add files; only show which ones would be added]'\
+    '(--all -h --help)-v[show files as they are added]'\
+    '(-f --force --all -h --help)'{-f,--force}'[allow adding otherwise ignored files]'\
+    '(-i --interactive --all -h --help)'{-i,--interactive}'[add contents interactively to index]'\
+    '(-p --path --all -h --help)'{-p,--path}'[like -i but go directly into patch mode for specified files]'\
+    '(-e --edit --all -h --help)'{-e,--edit}'[open diff against index in editor]'\
+    '(-u --update --all -h --help)'{-u,--update}'[update only files git already knows about]'\
+    '(-N --intent-to-add --all -h --help)'{-N,--intent-to-add}'[record only that path will be added later]'\
+    '(-s --stat -h --help)'{-s,--stat}'[generate diffstat instead of patch]'\
+    '(-h --help)--push[push to remote after performing finish]'\
+    '(-n -v -f --force -i --interactive -p --path -e --edit -u --update -N --intent-to-add -h --help)--all[add --update and add .]'\
+    '(-n -v -f --force -i --interactive -p --path -e --edit -u --update -N --intent-to-add -h --help --all --push)'{-h,--help}'[show help message]'\
     ':filepattern:_files'
 }
 
@@ -95,8 +96,9 @@ case $state in
 
       (rebase)
         _arguments \
-          '(-m --mine)'{-m,--mine}'[limit git-now commits by your name]'\
-          ':branch-name:__git_branch_names'
+          '(-m --mine -h --help)'{-m,--mine}'[limit git-now commits by your name]'\
+          '(-m --mine -h --help)'{-h,--help}'[show help message]'\
+          ':base-branch-name:__git_branch_names'
         ;;
 
       (push)
@@ -106,10 +108,11 @@ case $state in
 
       (grep)
         _arguments -s : \
-          '(-p --path)'{-p,--patch}'[generate diff in patch format]'\
-          '(-s --stat)'{-s,--stat}'[generate diffstat instead of patch]'\
-          '(-m --mine)'{-m,--mine}'[limit git-now commits by your name]'\
-          ':branch-name:__git_branch_names'
+          '(-p --patch -h --help)'{-p,--patch}'[generate diff in patch format]'\
+          '(-s --stat -h --help)'{-s,--stat}'[generate diffstat instead of patch]'\
+          '(-m --mine -h --help)'{-m,--mine}'[limit git-now commits by your name]'\
+          '(-m --mine -s --stat -p --patch -h --help)'{-h,--help}'[show help message]'\
+          ':base-branch-name:__git_branch_names'
         ;;
       (*)
         __git-now-add

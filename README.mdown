@@ -34,16 +34,16 @@ Installation
 ### Mac OS
 If you're on a Mac and use [homebrew](http://github.com/mxcl/homebrew), it's simple:
 
-    $ brew install https://github.com/iwata/git-now/raw/master/git-now.rb
+    $ brew install git-now
 
 #### install options
- * ``--zsh-completion``<br />copy zsh completion function for zsh users
+ * ``--zsh-completion``<br />copy zsh completion function to ``/usr/local/share/zsh/functions`` for zsh users
 
-        $ brew install --zsh-completion https://github.com/iwata/git-now/raw/master/git-now.rb
+        $ brew install --zsh-completion git-now
 
     Show details
 
-        $ brew options https://github.com/iwata/git-now/raw/master/git-now.rb
+        $ brew options git-now
 
 ### Manual installation
 If you prefer a manual installation, please use the following instructions:
