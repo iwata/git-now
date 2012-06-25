@@ -7,7 +7,7 @@ echo set HOME variable
 set HOME=%UserProfile%
 
 :makedir
-if exist %HOME%\bin goto :copyshflags
+if not exist %HOME%\bin goto :copyshflags
 echo make bin folder
 mkdir %HOME%\bin
 
@@ -20,4 +20,4 @@ echo copy shFlags
 copy %STARTUP_PATH%..\shFlags\src\shflags %MSYS_BIN%\gitnow-shFlags
 
 :copygitnow
-xcopy /EXCLUDE:%STARTUP_PATH%exclude.txt /D %STARTUP_PATH%..\* %MSYS_BIN%
+xcopy /EXCLUDE:%STARTUP_PATH%exclude.txt /D /Y %STARTUP_PATH%..\* %MSYS_BIN%
