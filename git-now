@@ -5,7 +5,10 @@ if [ "$DEBUG" = "yes" ]; then
   set -x
 fi
 
-export GITNOW_DIR=${0%\\*}
+GITNOW_DIR=$0
+GITNOW_DIR=${GITNOW_DIR%\\*} # for msysGit
+GITNOW_DIR=${GITNOW_DIR%/*}  # for others
+export GITNOW_DIR
 PREFIX="from now"
 
 usage() {
