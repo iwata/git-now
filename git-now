@@ -5,7 +5,7 @@ if [ "$DEBUG" = "yes" ]; then
   set -x
 fi
 
-export GITNOW_DIR=$(dirname "$0")
+export GITNOW_DIR=${0%\\*}
 PREFIX="from now"
 
 usage() {
