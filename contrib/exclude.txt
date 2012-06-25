@@ -1,0 +1,4 @@
+.gitmodules
+Makefile
+README.mdown
+gitnow-shFlags
