@@ -50,6 +50,17 @@ If you prefer a manual installation, please use the following instructions:
 
     $ git clone --recursive git://github.com/iwata/git-now.git
 
+#### for Windows
+Then, you can install `git-now`, using:
+
+    > .\contrib\msysgit-install.bat
+
+By default, git-now will be installed in %HOME%, If %HOME% is not defined be installed in %UserProfile%\bin.
+
+
+*note : shFlags needs "getopt.exe" or others, Reffer to [gitflow installation document] (https://github.com/nvie/gitflow/wiki/Windows).*
+
+#### for Others
 Then, you can install `git-now`, using:
 
     $ sudo make install
