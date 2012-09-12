@@ -9,7 +9,7 @@ cmd_default() {
   MESSAGE="[${PREFIX}] `date +\"%Y/%m/%d %T\"`"
   if [ $# -eq 0 ]; then
     git add -u
-    printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+    printf "${MESSAGE}\n\n%s" "`git diff --cached --no-ext-diff`" | git commit -F -
   else
     local is_all=false
     local is_stat=false
@@ -39,9 +39,9 @@ cmd_default() {
     fi
 
     if $is_stat; then
-      printf "${MESSAGE}\n\n%s" "`git diff --cached --stat`" | git commit -F -
+      printf "${MESSAGE}\n\n%s" "`git diff --cached --stat --no-ext-diff`" | git commit -F -
     else
-      printf "${MESSAGE}\n\n%s" "`git diff --cached`" | git commit -F -
+      printf "${MESSAGE}\n\n%s" "`git diff --cached --no-ext-diff`" | git commit -F -
     fi
     $is_push && git push
   fi
