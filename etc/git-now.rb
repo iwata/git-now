@@ -22,7 +22,7 @@ class GitNow < Formula
   def install
     system "make", "prefix=#{prefix}", "install"
     if ARGV.include? '--zsh-completion'
-      zsh_functions_d = share + 'zsh/functions'
+      zsh_functions_d = share + 'zsh/site-functions'
       zsh_functions_d.install "etc/_git-now"
     end
   end
