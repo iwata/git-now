@@ -37,7 +37,7 @@ git_remote_branches() { git branch -r --no-color | sed 's/^[* ] //'; }
 git_all_branches() { ( git branch --no-color; git branch -r --no-color) | sed 's/^[* ] //'; }
 
 git_current_branch() {
-  git branch -l | grep "*" | cut -d " " -f 2
+  git rev-parse --abbrev-ref HEAD
 }
 
 git_now_first_commit() {
