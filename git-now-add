@@ -43,7 +43,9 @@ cmd_default() {
     else
       printf "${MESSAGE}\n\n%s" "`git diff --cached --no-ext-diff`" | git commit -F -
     fi
-    $is_push && git push
+    if $is_push; then
+      git push
+    fi
   fi
 }
 
