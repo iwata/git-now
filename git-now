@@ -9,7 +9,20 @@ GITNOW_DIR=$0
 GITNOW_DIR=${GITNOW_DIR%\\*} # for msysGit
 GITNOW_DIR=${GITNOW_DIR%/*}  # for others
 export GITNOW_DIR
-PREFIX="from now"
+
+prefix_config=`git config now.prefix`
+if [ $? -eq 0 ]; then
+  PREFIX=$prefix_config
+else
+  PREFIX="from now"
+fi
+
+bracket_config=`git config now.bracket`
+if [ $? -eq 0 ]; then
+  BRACKET=$bracket_config
+else
+  BRACKET=true
+fi
 
 usage() {
   echo "usage: git now [-n] [-v] [--force | -f] [--interactive | -i] [--patch | -p]"

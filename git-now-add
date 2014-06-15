@@ -6,7 +6,13 @@ usage() {
 }
 
 cmd_default() {
-  MESSAGE="[${PREFIX}] `date +\"%Y/%m/%d %T\"`"
+  if [ $BRACKET = "true" ]; then
+    prefix_str="[${PREFIX}]"
+  else
+    prefix_str=$PREFIX
+  fi
+  MESSAGE="${prefix_str} `date +\"%Y/%m/%d %T\"`"
+
   if [ $# -eq 0 ]; then
     git add -u
     printf "${MESSAGE}\n\n%s" "`git diff --cached --no-ext-diff`" | git commit -F -
