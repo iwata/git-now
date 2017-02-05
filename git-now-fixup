@@ -1,0 +1,52 @@
+usage() {
+  echo "usage: git now fixup"
+}
+
+cmd_default() {
+  parse_args "$@"
+
+  WORKING_BRANCH=$(git_current_branch)
+  INITIAL_COMMIT=$(git_now_initial_commit)
+
+  if flag mine; then
+    FIRST_NOW_COMMIT=$(git_now_my_first_commit)
+  else
+    FIRST_NOW_COMMIT=$(git_now_first_commit)
+  fi
+
+  git reset ${FIRST_NOW_COMMIT}
+  git add -A
+  if [ $# -eq 2 ]
+  then
+      git commit --amend -m "$2"
+  else
+      git commit --amend
+  fi
+}
+
+cmd_help() {
+  usage
+  exit 0
+}
+
+parse_args() {
+  # parse options
+  DEFINE_boolean 'patch' false 'generate diff in patch format' 'p'
+  DEFINE_boolean 'stat' false 'generate diffstat instead of patch' 's'
+  DEFINE_boolean 'mine' false 'limit git-now commits by my name' 'm'
+  FLAGS "$@" || exit $?
+  eval set -- "${FLAGS_ARGV}"
+  # read arguments into global variables
+  BASE_BRANCH=$1
+  ARGS=
+  if flag patch; then
+    ARGS="${ARGS} -p"
+  fi
+  if flag stat; then
+    ARGS="${ARGS} --stat"
+  fi
+  if flag mine; then
+    AUTHOR=$(escape `git config --get user.name`)
+    ARGS="${ARGS} --author=$AUTHOR"
+  fi
+}
