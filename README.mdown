@@ -73,6 +73,21 @@ where git-now will be installed, simply specify it explicitly, using:
 Or simply point your `PATH` environment variable to your git-now checkout
 directory.
 
+### Installation as Zsh plugin
+
+[Zplugin](https://github.com/zdharma/zplugin) provides directory
+`~/.zplugin/polaris` (via `$ZPFX`) as the `PREFIX` for plugins that have
+`Makefile` with `install` target. Adding following to `.zshrc` installs
+git-now:
+
+```zsh
+zplugin ice as"program" pick"$ZPFX/bin/git-now" make"prefix=$ZPFX install"
+zplugin light iwata/git-now
+```
+
+Use `zplugin update iwata/git-now` to automatically update and reinstall.
+This method allows to install and update without administrator rights.
+Also, copying `.zshrc` to other machine/account brings git-now there.
 
 See also
 ---------------
