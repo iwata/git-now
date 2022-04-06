@@ -48,7 +48,7 @@ If you're on a Mac and use [homebrew](http://github.com/mxcl/homebrew), it's sim
 ### Manual installation
 If you prefer a manual installation, please use the following instructions:
 
-    $ git clone --recursive git://github.com/iwata/git-now.git
+    $ git clone --recursive https://github.com/iwata/git-now.git
 
 #### for Windows
 Then, you can install `git-now`, using:
